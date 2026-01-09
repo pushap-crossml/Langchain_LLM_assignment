@@ -1,5 +1,4 @@
-# Langchain_LLM_assignment
-
+# Langchain LLM Assignment
 This project demonstrates how Google Gemini models can power LangChain agents to intelligently select and use tools or APIs to handle user queries.
 
 🎯 Project Goals
@@ -51,14 +50,24 @@ API: OpenWeatherMap
 Step 1: Clone the Repository
 git clone https://github.com/pushap-crossml/Langchain_LLM_assignment.git
 cd Langchain_LLM_assignment
+
 Step 2: Set Up Virtual Environment
 python -m venv myenv
 source myenv/bin/activate   # Linux / macOS
 myenv\Scripts\activate      # Windows
+
 Step 3: Configure API Key
+
+Add your Gemini API key in cred.py:
+
 gemini_api_key = "YOUR_GEMINI_API_KEY"
+
+
+
+
 ▶️ Running the Application
 python main.py
+
 Workflow
 
 Understand the user query
