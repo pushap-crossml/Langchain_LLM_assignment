@@ -1,101 +1,129 @@
-# Langchain LLM Assignment
-This project demonstrates how Google Gemini models can power LangChain agents to intelligently select and use tools or APIs to handle user queries.
+LangChain Agent Demo
+
+Demonstrates how Google Gemini models power LangChain agents
+
+Agents intelligently select and use tools or APIs
+
+Handles diverse user queries through dynamic tool orchestration
 
 🎯 Project Goals
 
-The main objectives of this assignment are to:
-
-Gain practical experience with LangChain agents
+Gain hands-on experience with LangChain agents
 
 Build and integrate custom tools
 
-Explore agents with single or multiple tools
+Explore single-tool and multi-tool agent architectures
 
-Connect external APIs to LLMs
+Connect external APIs with LLMs
 
-Learn real-world orchestration of AI agents using Google Gemini
+Learn real-world AI agent orchestration using Google Gemini
 
 🧠 Implemented Agent Types
 1️⃣ Focused Tool Agent
 
-Works with a single tool
+Uses a single dedicated tool
 
-Ideal for specific tasks like calculations
+Best suited for:
+
+Mathematical calculations
+
+Specific, well-defined tasks
 
 2️⃣ Multi-Tool Intelligence Agent
 
-Capable of using multiple tools
+Uses multiple tools
 
-Automatically decides which tool to call based on user intent
+Automatically:
+
+Understands user intent
+
+Selects the appropriate tool
+
+Executes the required operation
 
 3️⃣ API-Connected Agent
 
-Fetches dynamic data via external APIs
+Integrates external APIs
 
-Example: retrieving live weather information
+Fetches live, dynamic data
+
+Example use case:
+
+Real-time weather information retrieval
 
 🛠️ Technology Stack
 
-Language: Python 3.10+
+Programming Language: Python 3.10+
 
 Framework: LangChain
 
 LLM: Google Gemini (gemini-3-flash-preview)
 
-Environment: Virtual Environment (myenv)
+Environment: Python Virtual Environment (myenv)
 
-API: OpenWeatherMap
+External API: OpenWeatherMap
 
 ⚙️ Setup Instructions
 Step 1: Clone the Repository
+
 git clone https://github.com/pushap-crossml/Langchain_LLM_assignment.git
+
 cd Langchain_LLM_assignment
 
-Step 2: Set Up Virtual Environment
+Step 2: Create & Activate Virtual Environment
+
 python -m venv myenv
-source myenv/bin/activate   # Linux / macOS
-myenv\Scripts\activate      # Windows
 
-Step 3: Configure API Key
+Linux / macOS: source myenv/bin/activate
 
-Add your Gemini API key in cred.py:
+Windows: myenv\Scripts\activate
+
+Step 3: Configure API Keys
+
+Add Gemini API key in cred.py
+
+Example:
 
 gemini_api_key = "YOUR_GEMINI_API_KEY"
 
+⚠️ Never commit real API keys
 
-
+Use .env files or environment variables in production
 
 ▶️ Running the Application
+
+Run the main program:
+
 python main.py
 
-Workflow
+Application Workflow
 
-Understand the user query
+Parse and understand the user query
 
-Select the appropriate tool
+Identify the required tool
 
-Execute the tool
+Execute the selected tool
 
-Return the final result
+Return the final response to the user
 
 📌 Sample Use Cases
 
-Solve arithmetic problems
+Solve arithmetic expressions
 
 Calculate or predict future dates
 
-Analyze and process text
+Analyze and process text inputs
 
-Fetch live weather data
+Retrieve live weather data
 
 Dynamically select tools based on query intent
 
 💡 What You’ll Learn
 
-How LangChain agents work in practice
+Practical implementation of LangChain agents
 
-Tool selection and orchestration
+Tool selection and orchestration strategies
 
 Differences between single-tool and multi-tool agents
 
-API integration with LLMs
+Integrating APIs with large language models
