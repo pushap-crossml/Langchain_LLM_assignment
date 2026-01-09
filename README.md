@@ -1,136 +1,150 @@
-This repository demonstrates the implementation of LangChain tool-based agents using Google Gemini models. The project showcases how Large Language Models (LLMs) can dynamically choose and invoke single tools, multiple tools, and API-based tools to solve diverse user queries.
+# LangChain Assignment – Tool-Based Agents with Google Gemini
 
-🎯 Project Objective
+This repository demonstrates the implementation of **LangChain tool-based agents** using **Google Gemini models**. The project showcases how Large Language Models (LLMs) can dynamically choose and invoke **single tools**, **multiple tools**, and **API-based tools** to solve diverse user queries.
+
+---
+
+## 🎯 Project Objective
 
 The goal of this assignment is to:
 
-Understand LangChain Agents and their architecture
+* Understand **LangChain Agents** and their architecture
+* Implement **custom tools** in LangChain
+* Explore **single-tool** and **multi-tool** agent behavior
+* Integrate **external APIs** with LLMs
+* Learn practical **agent orchestration** using **Google Gemini**
 
-Implement custom tools in LangChain
+---
 
-Explore single-tool and multi-tool agent behavior
+## 🧠 Agents Implemented
 
-Integrate external APIs with LLMs
+### 1️⃣ Single Tool Agent
 
-Learn practical agent orchestration using Google Gemini
+* Uses **one tool only**
+* Suitable for focused tasks such as:
 
-🧠 Agents Implemented
-1️⃣ Single Tool Agent
+  * Mathematical calculations
+  * Simple deterministic operations
 
-Uses one tool only
+### 2️⃣ Multi Tool Agent
 
-Suitable for focused tasks such as:
+* Uses **multiple tools**
+* The LLM dynamically decides which tool to invoke based on **user intent**
+* Handles diverse queries such as:
 
-Mathematical calculations
+  * Calculations
+  * Date operations
+  * Text analysis
 
-Simple deterministic operations
+### 3️⃣ API Agent
 
-2️⃣ Multi Tool Agent
+* Integrates **external APIs** with the LLM
+* Demonstrates real-world data access
+* Example:
 
-Uses multiple tools
+  * 🌦️ Weather information retrieval using **OpenWeatherMap API**
 
-The LLM dynamically decides which tool to invoke based on user intent
+---
 
-Handles diverse queries such as:
+## 🛠️ Tech Stack
 
-Calculations
+* **Language:** Python 3.10+
+* **Framework:** LangChain
+* **LLM:** Google Gemini
 
-Date operations
+  * `gemini-3-flash-preview`
+  * `gemini-2.5-flash-lite`
+* **Environment:** Virtual Environment (`myenv`)
+* **External API:** OpenWeatherMap
 
-Text analysis
+---
 
-3️⃣ API Agent
+## ⚙️ Installation & Setup
 
-Integrates external APIs with the LLM
+### 1️⃣ Clone the Repository
 
-Demonstrates real-world data access
-
-Example:
-
-🌦️ Weather information retrieval using OpenWeatherMap API
-
-🛠️ Tech Stack
-
-Language: Python 3.10+
-
-Framework: LangChain
-
-LLM: Google Gemini
-
-gemini-2.5-flash
-
-gemini-2.5-flash-lite
-
-Environment: Virtual Environment (venv)
-
-External API: OpenWeatherMap
-
-⚙️ Installation & Setup
-1️⃣ Clone the Repository
+```bash
 git clone https://github.com/hemant-crossml/Langchain_Assignment.git
 cd Langchain_Assignment
-2️⃣ Create & Activate Virtual Environment
-python -m venv myenv
+```
 
+### 2️⃣ Create & Activate Virtual Environment
+
+```bash
+python -m venv myenv
 
 # Linux / macOS
 source myenv/bin/activate
 
-
 # Windows
 myenv\Scripts\activate
-🔐 API Key Configuration
+```
 
-Add your Google Gemini API key in cred.py:
+---
 
+## 🔐 API Key Configuration
+
+Add your **Google Gemini API key** in `cred.py`:
+
+```python
 gemini_api_key = "YOUR_GEMINI_API_KEY"
+```
 
-⚠️ Important
+> ⚠️ **Important**
+>
+> * Never commit real API keys to GitHub
+> * For production projects, use `.env` files and environment variables
 
-Never commit real API keys to GitHub
+If using the **Weather API Agent**, ensure your **OpenWeatherMap API key** is also properly configured.
 
-For production projects, use .env files and environment variables
+---
 
-If using the Weather API Agent, ensure your OpenWeatherMap API key is also properly configured.
-
-▶️ How to Run
+## ▶️ How to Run
 
 Run the main application:
 
+```bash
 python main.py
+```
 
 The agent will:
 
-Understand the user query
+1. Understand the user query
+2. Select the appropriate tool
+3. Execute the tool
+4. Return the final response
 
-Select the appropriate tool
+---
 
-Execute the tool
+## 💡 Example Use Cases
 
-Return the final response
+* ➗ Solve mathematical calculations
+* 📅 Find future or past dates
+* 📝 Analyze or transform text content
+* 🌦️ Fetch real-time weather information
+* 🧠 Dynamically choose tools based on query intent
 
-💡 Example Use Cases
+---
 
-➗ Solve mathematical calculations
-
-📅 Find future or past dates
-
-📝 Analyze or transform text content
-
-🌦️ Fetch real-time weather information
-
-🧠 Dynamically choose tools based on query intent
-
-📘 Learning Outcomes
+## 📘 Learning Outcomes
 
 By completing this assignment, you will gain:
 
-Practical understanding of LangChain Agents
+* Practical understanding of **LangChain Agents**
+* Hands-on experience with **tool invocation and orchestration**
+* Clear insight into **single-tool vs multi-tool agents**
+* Experience integrating **external APIs** with LLMs
+* Knowledge of **clean project structuring** for AI applications
 
-Hands-on experience with tool invocation and orchestration
+---
 
-Clear insight into single-tool vs multi-tool agents
 
-Experience integrating external APIs with LLMs
+## 📚 Resources
 
-Knowledge of clean project structuring for AI applications
+* LangChain Documentation
+* Google Gemini API Documentation
+* OpenWeatherMap API Docs
+
+---
+
+
