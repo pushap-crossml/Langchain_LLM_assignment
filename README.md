@@ -47,8 +47,8 @@ The main objectives of this assignment are to:
 
 ### Step 1: Clone the Repository
 
-git clone https://github.com/pushap-crossml/Langchain_LLM_assignment.git
-cd Assignment_Langchain
+- git clone https://github.com/pushap-crossml/Langchain_LLM_assignment.
+gitcd Assignment_Langchain
 Step 2: Set Up Virtual Environment
 
 python -m venv myenv
