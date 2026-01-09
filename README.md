@@ -64,8 +64,8 @@ The goal of this assignment is to:
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/hemant-crossml/Langchain_Assignment.git
-cd Langchain_Assignment
+git clone https://github.com/pushap-crossml/Langchain_LLM_Assignment.git
+cd Assignment_Langchain
 ```
 
 ### 2️⃣ Create & Activate Virtual Environment
@@ -89,14 +89,6 @@ Add your **Google Gemini API key** in `cred.py`:
 ```python
 gemini_api_key = "YOUR_GEMINI_API_KEY"
 ```
-
-> ⚠️ **Important**
->
-> * Never commit real API keys to GitHub
-> * For production projects, use `.env` files and environment variables
-
-If using the **Weather API Agent**, ensure your **OpenWeatherMap API key** is also properly configured.
-
 ---
 
 ## ▶️ How to Run
