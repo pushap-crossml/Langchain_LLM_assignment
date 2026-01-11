@@ -33,7 +33,7 @@ try:
         temperature=0.2,          # Low randomness for stable responses
         top_p=0.9,                 # Probability mass for nucleus sampling
         top_k=40,                  # Limits tokens considered at each step
-        max_output_tokens=512,     # Cap on output length
+        max_output_tokens=600,     # Cap on output length
     )
     logger.info("Gemini model initialized successfully")
     logger.debug(
