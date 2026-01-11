@@ -1,131 +1,241 @@
 """
 main.py
 -------
-Demonstrates agent invocation examples with comprehensive logging.
-This script runs multiple scenarios including math calculations,
-multi-tool usage, and API queries, while logging all important steps
-for debugging and traceability.
+
+Entry point for running the LangChain agent with Mem0-backed memory.
+
+This module demonstrates:
+- Interactive conversational usage with persistent memory
+- Predefined example executions for testing and demos
+- Comprehensive logging and graceful error handling
+
+Execution Modes:
+1. Interactive Chat: Continuous user-agent conversation
+2. Example Queries: Predefined test scenarios using tools and APIs
 """
 
 import traceback
-from agent import agent
-from logger_config import setup_logger
-from prompt import system_prompt, user_query_1, user_query_2, user_query_3
+from langchain.messages import HumanMessage
 
-# Initialize logger for the main module
+from agent import invoke_agent_with_memory
+from cred import USER_ID
+from prompt import system_prompt, user_query_1, user_query_2, user_query_3
+from logger_config import setup_logger
+
 logger = setup_logger(__name__)
 
-# ==================== Define message structures for each example ====================
 
-# Example 1: Simple math calculation query
-message1 = {
-    "messages": [
-        system_prompt,
-        user_query_1
-    ]
-}
+def interactive_chat(user_id: str = USER_ID) -> None:
+    """
+    Run an interactive chat session with memory persistence.
 
-# Example 2: Multi-tool usage (math + date operations)
-message2 = {
-    "messages": [
-        system_prompt,
-        user_query_2
-    ]
-}
+    This function starts a REPL-style loop where the user can
+    continuously interact with the agent. Each interaction
+    is enhanced with long-term memory via Mem0 and logged
+    for observability and debugging.
 
-# Example 3: Weather API query with recommendations
-message3 = {
-    "messages": [
-        system_prompt,
-        user_query_3
+    Args:
+        user_id (str): Unique identifier used to isolate
+            and persist user-specific memory.
+
+    Features:
+        - Persistent memory across turns
+        - Graceful handling of keyboard interrupts
+        - Clean exit commands (`exit`, `quit`, `bye`)
+        - Structured logging for every conversation turn
+
+    Returns:
+        None
+    """
+    logger.info("=" * 70)
+    logger.info("INTERACTIVE CHAT MODE STARTED")
+    logger.info(f"User ID: {user_id}")
+    logger.info("=" * 70)
+
+    # Display welcome banner
+    print("\n" + "=" * 70)
+    print(" AI Agent with Memory - Interactive Chat")
+    print("=" * 70)
+    print("\nAvailable commands:")
+    print("  - Type your question normally to chat")
+    print("  - 'exit', 'quit', 'bye' - End the conversation")
+    print("  - 'clear' - View your conversation history")
+    print("\nTools available: Math Calculator, Date Utility, Weather, Text Analysis")
+    print("-" * 70 + "\n")
+
+    conversation_count = 0
+
+    # Main interactive loop
+    while True:
+        try:
+            user_input = input("You: ").strip()
+
+            if not user_input:
+                print("  Please enter a message.\n")
+                continue
+
+            # Exit commands
+            if user_input.lower() in {"exit", "quit", "bye", "q"}:
+                print("\n Thanks for chatting! Your conversation has been saved to memory.")
+                logger.info(
+                    f"User ended conversation. Total turns: {conversation_count}"
+                )
+                break
+
+            # Informational command
+            if user_input.lower() == "clear":
+                print(
+                    f"\n You've had {conversation_count} conversation turns in this session.\n"
+                )
+                continue
+
+            logger.info(
+                f"[Turn {conversation_count + 1}] User query: {user_input}"
+            )
+
+            messages = {
+                "messages": [
+                    system_prompt,
+                    HumanMessage(content=user_input),
+                ]
+            }
+
+            print("\n Agent is thinking...", end="\r")
+
+            response = invoke_agent_with_memory(messages, user_id)
+
+            assistant_response = response["messages"][-1].content
+            print("\r" + " " * 30 + "\r", end="")
+            print(f"Agent: {assistant_response}\n")
+
+            conversation_count += 1
+            logger.info(
+                f"[Turn {conversation_count}] Agent response delivered successfully"
+            )
+
+        except KeyboardInterrupt:
+            print("\n\n  Interrupted by user (Ctrl+C)")
+            print(" Exiting chat. Your conversation has been saved.\n")
+            logger.warning(
+                "Chat interrupted by KeyboardInterrupt (Ctrl+C)"
+            )
+            break
+
+        except KeyError as exc:
+            logger.error(
+                f"[ERROR] KeyError - missing expected key: {exc}",
+                exc_info=True,
+            )
+            print(
+                f"\n Error: Missing data in response - {exc}"
+            )
+            print("Please try rephrasing your question.\n")
+
+        except Exception as exc:
+            logger.error(
+                f"[ERROR] Unexpected error: {exc}",
+                exc_info=True,
+            )
+            logger.debug(
+                f"Full traceback:\n{traceback.format_exc()}"
+            )
+            print(f"\n An error occurred: {exc}")
+            print("Please try again or type 'exit' to quit.\n")
+
+    logger.info("=" * 70)
+    logger.info("INTERACTIVE CHAT SESSION ENDED")
+    logger.info(f"Total conversation turns: {conversation_count}")
+    logger.info("=" * 70)
+
+
+def run_example_queries() -> None:
+    """
+    Execute predefined example queries using the agent.
+
+    This function runs a fixed set of demonstration queries
+    showcasing:
+    - Mathematical reasoning
+    - Multi-tool orchestration
+    - External API usage (e.g., weather)
+
+    It is intended for:
+    - Smoke testing
+    - Demos
+    - Debugging tool integrations
+
+    Returns:
+        None
+    """
+    logger.info("=" * 70)
+    logger.info("RUNNING EXAMPLE QUERIES WITH MEMORY")
+    logger.info("=" * 70)
+
+    examples = [
+        ("Math Calculation", user_query_1),
+        ("Multi-Tool Usage", user_query_2),
+        ("Weather API", user_query_3),
     ]
-}
+
+    for idx, (title, query) in enumerate(examples, start=1):
+        try:
+            logger.info(f"[EXAMPLE {idx}] Starting: {title}")
+            logger.info(f"[EXAMPLE {idx}] Query: {query.content}")
+
+            messages = {
+                "messages": [
+                    system_prompt,
+                    query,
+                ]
+            }
+
+            response = invoke_agent_with_memory(
+                messages, user_id=USER_ID
+            )
+
+            print(f"\n--- Example {idx}: {title} ---")
+            print(response["messages"][-1].content)
+
+            logger.info(f"[EXAMPLE {idx}] Completed successfully")
+
+        except Exception as exc:
+            logger.error(
+                f"[EXAMPLE {idx}] Failed: {exc}",
+                exc_info=True,
+            )
+            print(f"\n--- Example {idx} FAILED ---")
+            print(f"Error: {exc}\n")
+
+    logger.info("=" * 70)
+    logger.info("ALL EXAMPLE QUERIES COMPLETED")
+    logger.info("=" * 70)
+
 
 if __name__ == "__main__":
-    logger.info("="*70)
-    logger.info("APPLICATION STARTED")
-    logger.info("="*70)
+    """
+    Application entry point.
 
-    # ==================== Example 1: Math Calculation ====================
+    Prompts the user to select between:
+    - Interactive chat mode
+    - Example query execution
+
+    Defaults to interactive mode on invalid input.
+    """
+    print("\n LangChain Agent with Mem0")
+    print("Select mode:")
+    print("  1. Interactive Chat (recommended)")
+    print("  2. Run Example Queries")
+
     try:
-        logger.info("\n[EXAMPLE 1] Starting math calculation example")
-        logger.info(f"[EXAMPLE 1] User query: {user_query_1}")
+        choice = input("\nEnter choice (1 or 2): ").strip()
 
-        math_response = agent.invoke(message1)
+        if choice == "1":
+            interactive_chat(USER_ID)
+        elif choice == "2":
+            run_example_queries()
+        else:
+            print(" Invalid choice. Running interactive chat by default.")
+            interactive_chat(USER_ID)
 
-        logger.info(f"[EXAMPLE 1] Agent invocation completed successfully")
-        logger.debug(f"[EXAMPLE 1] Response messages count: {len(math_response['messages'])}")
-        logger.debug(f"[EXAMPLE 1] Final message type: {type(math_response['messages'][-1])}")
-
-        print("\n--- Example 1 ---")
-        print(math_response["messages"][-1].content)
-
-        logger.info(f"[EXAMPLE 1] Output displayed to user")
-
-    except KeyError as e:
-        logger.error(f"[EXAMPLE 1] KeyError - missing expected key in response: {e}", exc_info=True)
-        print("\n--- Example 1 FAILED ---")
-        print(f"Error: Missing expected data in response - {e}")
-
-    except Exception as e:
-        logger.error(f"[EXAMPLE 1] Unexpected error occurred: {e}", exc_info=True)
-        logger.debug(f"[EXAMPLE 1] Full traceback:\n{traceback.format_exc()}")
-        print("\n--- Example 1 FAILED ---")
-        print(f"Error: {e}")
-
-    # ==================== Example 2: Multi-Tool Usage ====================
-    try:
-        logger.info("\n[EXAMPLE 2] Starting multi-tool example")
-        user_query_2 = "Calculate the total cost if I buy 3 items priced at 499 each and tell me the delivery date if shipping takes 7 days."
-        logger.info(f"[EXAMPLE 2] User query: {user_query_2}")
-
-        multi_response = agent.invoke(message2)
-
-        logger.info(f"[EXAMPLE 2] Agent invocation completed successfully")
-        logger.debug(f"[EXAMPLE 2] Response messages count: {len(multi_response['messages'])}")
-
-        print("\n--- Multi Tool Example ---")
-        print(multi_response["messages"][-1].content)
-
-        logger.info(f"[EXAMPLE 2] Output displayed to user")
-
-    except KeyError as e:
-        logger.error(f"[EXAMPLE 2] KeyError - missing expected key in response: {e}", exc_info=True)
-        print("\n--- Multi Tool Example FAILED ---")
-        print(f"Error: Missing expected data in response - {e}")
-
-    except Exception as e:
-        logger.error(f"[EXAMPLE 2] Unexpected error occurred: {e}", exc_info=True)
-        logger.debug(f"[EXAMPLE 2] Full traceback:\n{traceback.format_exc()}")
-        print("\n--- Multi Tool Example FAILED ---")
-        print(f"Error: {e}")
-
-    ==================== Example 3: Weather API ====================
-    try:
-        logger.info("\n[EXAMPLE 3] Starting weather API example")
-        logger.info(f"[EXAMPLE 3] User query: {user_query_3}")
-
-        api_response = agent.invoke(message3)
-
-        logger.info(f"[EXAMPLE 3] Agent invocation completed successfully")
-        logger.debug(f"[EXAMPLE 3] Response messages count: {len(api_response['messages'])}")
-
-        print("\n--- Real API Tool Example ---")
-        print(api_response["messages"][-1].content)
-
-        logger.info(f"[EXAMPLE 3] Output displayed to user")
-
-    except KeyError as e:
-        logger.error(f"[EXAMPLE 3] KeyError - missing expected key in response: {e}", exc_info=True)
-        print("\n--- Real API Tool Example FAILED ---")
-        print(f"Error: Missing expected data in response - {e}")
-
-    except Exception as e:
-        logger.error(f"[EXAMPLE 3] Unexpected error occurred: {e}", exc_info=True)
-        logger.debug(f"[EXAMPLE 3] Full traceback:\n{traceback.format_exc()}")
-        print("\n--- Real API Tool Example FAILED ---")
-        print(f"Error: {e}")
-
-    logger.info("="*70)
-    logger.info("ALL EXAMPLES COMPLETED")
-    logger.info("="*70)
+    except KeyboardInterrupt:
+        print("\n\n Exiting application.")
+        logger.info("Application terminated by user")

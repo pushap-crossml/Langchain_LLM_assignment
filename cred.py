@@ -1,43 +1,75 @@
 """
 cred.py
---------
-Responsible for loading and validating all sensitive credentials (API keys) 
-required by the application.
 
-Best Practices:
-- Do NOT hardcode credentials in source code.
-- Load credentials from environment variables, optionally via a `.env` file.
-- Validate that required keys exist before the application runs.
+Centralized credential management for the application.
+
+This module is responsible for:
+- Loading sensitive credentials (API keys) from environment variables
+- Optionally reading values from a `.env` file
+- Validating the presence of required credentials at startup
+- Logging credential availability (without exposing secrets)
+
+Security & Best Practices:
+- Credentials must NEVER be hardcoded
+- `.env` files should not be committed to version control
+- Required credentials fail fast during application startup
+- Optional credentials degrade functionality gracefully
 """
 
 import os
 from dotenv import load_dotenv
 from logger_config import setup_logger
 
-# Initialize logger for this module
-logger = setup_logger(__name__)
+# ---------------------------------------------------------------------
+# Logging Setup
+# ---------------------------------------------------------------------
 
+logger = setup_logger(__name__)
 logger.info("Starting credential loading process")
 
-# Load environment variables from .env file (if present)
+# ---------------------------------------------------------------------
+# Environment Loading
+# ---------------------------------------------------------------------
+
 load_dotenv()
 logger.debug(".env file loaded successfully")
 
-# Load Gemini API key
-gemini_api_key = os.getenv("GEMINI_API_KEY", "")
+# ---------------------------------------------------------------------
+# API Keys
+# ---------------------------------------------------------------------
+
+# Required credentials
+gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
+weather_api_key: str = os.getenv("WEATHER_API_KEY", "")
+
+# Optional credentials
+memo_api_key: str = os.getenv("MEM0_API_KEY", "")
+
 logger.debug(f"GEMINI_API_KEY present: {bool(gemini_api_key)}")
-
-# Load Weather API key
-weather_api_key = os.getenv("WEATHER_API_KEY", "")
 logger.debug(f"WEATHER_API_KEY present: {bool(weather_api_key)}")
+logger.debug(f"MEM0_API_KEY present: {bool(memo_api_key)}")
 
-# Validate that required API keys are present
+# ---------------------------------------------------------------------
+# Validation
+# ---------------------------------------------------------------------
+
 if not gemini_api_key:
-    logger.critical("GEMINI_API_KEY not found in .env file or environment")
-    raise EnvironmentError("GEMINI_API_KEY not found in .env file or environment")
+    logger.critical("GEMINI_API_KEY not found in environment variables")
+    raise EnvironmentError("GEMINI_API_KEY not found")
 
 if not weather_api_key:
-    logger.critical("WEATHER_API_KEY not found in .env file or environment")
-    raise EnvironmentError("WEATHER_API_KEY not found in .env file or environment")
+    logger.critical("WEATHER_API_KEY not found in environment variables")
+    raise EnvironmentError("WEATHER_API_KEY not found")
+
+# Optional dependency (do not fail application)
+if not memo_api_key:
+    logger.warning("MEM0_API_KEY not found; Mem0 functionality will be disabled")
 
 logger.info("All required API keys validated successfully")
+
+# ---------------------------------------------------------------------
+# Memory Configuration
+# ---------------------------------------------------------------------
+
+#: Default user identifier for memory persistence
+USER_ID: str = "Pushap"

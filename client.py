@@ -1,45 +1,93 @@
 """
 client.py
+=========
 
-Initializes a Google Gemini chat model client for LangChain usage. This module
-creates a `ChatGoogleGenerativeAI` instance with controlled response behavior 
-and exports it as `model` for use across the application.
+Google Gemini Chat Model Client Initialization.
 
-Configuration:
-- `temperature`, `top_p`, and `top_k` govern response randomness and creativity.
-- `max_output_tokens` limits the number of tokens in each model output.
+This module initializes and exports a configured Google Gemini chat model
+(`ChatGoogleGenerativeAI`) for use with LangChain across the application.
+It also optionally initializes a Mem0 memory client if a valid API key
+is provided.
 
-Security:
-- Keep the API key outside of source control, e.g., via environment variables 
-  or a separate secrets/credentials file not committed to the repository.
+The exported objects from this module are intended to be imported and reused
+by other modules to ensure consistent configuration and resource usage.
 
-Usage:
-    from client import model
-    response = model.predict("Hello, world!")
+Exports
+-------
+model : ChatGoogleGenerativeAI
+    A configured Gemini chat model instance with controlled generation
+    parameters.
+mem0 : MemoryClient or None
+    An optional Mem0 memory client instance. Set to ``None`` if Mem0
+    initialization fails or no API key is provided.
+
+Configuration
+-------------
+The Gemini model behavior is controlled using the following parameters:
+- temperature : Controls randomness of responses.
+- top_p       : Enables nucleus sampling.
+- top_k       : Limits candidate token selection.
+- max_output_tokens : Maximum tokens per response.
+
+Security Notes
+--------------
+- API keys must never be hard-coded.
+- Store credentials in environment variables or a secure credentials module
+  that is excluded from source control.
+
+Example
+-------
+>>> from client import model
+>>> response = model.predict("Hello, world!")
+>>> print(response)
 """
+
 from langchain_google_genai import ChatGoogleGenerativeAI
-from cred import gemini_api_key
+from mem0 import MemoryClient
+
+from cred import gemini_api_key, memo_api_key
 from logger_config import setup_logger
 
-# Initialize logger for this module
-logger = setup_logger(__name__)
+# ---------------------------------------------------------------------------
+# Logging Setup
+# ---------------------------------------------------------------------------
 
+logger = setup_logger(__name__)
 logger.info("Initializing Gemini chat model client")
+
+# ---------------------------------------------------------------------------
+# Gemini Model Initialization
+# ---------------------------------------------------------------------------
 
 try:
     model = ChatGoogleGenerativeAI(
-        model="gemini-3-flash-preview",
-        api_key=gemini_api_key,
-        temperature=0.2,          # Low randomness for stable responses
-        top_p=0.9,                 # Probability mass for nucleus sampling
-        top_k=40,                  # Limits tokens considered at each step
-        max_output_tokens=600,     # Cap on output length
+        model="gemini-2.5-flash-lite",
+        google_api_key=gemini_api_key,
+        temperature=0.2,
+        top_p=0.9,
+        top_k=40,
+        max_output_tokens=512,
     )
     logger.info("Gemini model initialized successfully")
-    logger.debug(
-        "Model config: model=gemini-2.5-flash-lite, "
-        "temperature=0.2, top_p=0.9, top_k=40, max_output_tokens=512"
-    )
-except Exception as e:
-    logger.error(f"Failed to initialize Gemini model: {str(e)}", exc_info=True)
+except Exception:
+    logger.error("Failed to initialize Gemini model", exc_info=True)
     raise
+
+# ---------------------------------------------------------------------------
+# Mem0 (Optional Memory Client)
+# ---------------------------------------------------------------------------
+
+mem0 = None
+logger.info("Initializing Mem0 memory client")
+
+if memo_api_key:
+    try:
+        mem0 = MemoryClient(api_key=memo_api_key)
+        logger.info("Mem0 initialized successfully")
+    except Exception:
+        logger.warning(
+            "Mem0 initialization failed, continuing without memory support",
+            exc_info=True,
+        )
+else:
+    logger.warning("MEMO_API_KEY not found, skipping Mem0 initialization")
