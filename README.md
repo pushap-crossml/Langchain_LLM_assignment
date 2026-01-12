@@ -89,6 +89,7 @@ Add your **Google Gemini API key** in `cred.py`:
 ```python
 gemini_api_key = "YOUR_GEMINI_API_KEY"
 ```weather_api_key = "YOUR_WEATHER_API_KEY"
+MEM0_API_KEY="your_mem0_api_key"
 ---
 
 ## ▶️ How to Run
