@@ -1,4 +1,4 @@
-LangChain Agent with Persistent Memory (Mem0) and Tooling
+# LangChain Agent with Persistent Memory (Mem0) and Tooling
 
 An industry-grade LangChain application that demonstrates how to build a tool-augmented AI agent with persistent long-term memory, external API integrations, and robust logging.
 
