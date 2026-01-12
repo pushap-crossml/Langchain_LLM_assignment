@@ -1,4 +1,4 @@
-# LANGCHAIN_ASSIGNMENT
+# LangChain Assignment: Tool-Driven AI Agents using Google Gemini
 
 This repository demonstrates the implementation of **LangChain tool-based agents** using **Google Gemini models**.  
 The project showcases how **Large Language Models (LLMs)** can dynamically choose and invoke **single tools, multiple tools, and API-based tools** to solve user queries.
