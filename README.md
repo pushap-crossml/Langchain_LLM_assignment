@@ -127,20 +127,20 @@ Example: real-time weather information retrieval
 ## ⚙️ Installation & Setup
 1️⃣ Clone the Repository
 git clone https://github.com/pushap-crossml/Langchain_LLM_assignment.git
-cd Assignment_Langchain
+- **cd Assignment_Langchain**
 
 2️⃣ Create & Activate Virtual Environment
-python -m venv myenv
+- **python -m venv myenv**
 
 
 Linux / macOS
 
-source venv/bin/activate
+- **source venv/bin/activate**
 
 
 Windows
 
-venv\Scripts\activate
+- **myenv\Scripts\activate**
 
 ## 🔐 API Key Configuration
 
