@@ -4,95 +4,96 @@ An industry-grade LangChain application that demonstrates how to build a tool-au
 
 This project showcases best practices for:
 
-Stateless agent invocation with stateful behavior via external memory
+- Stateless agent invocation with stateful behavior via external memory
 
-Secure credential handling
+- Secure credential handling
 
-Modular tool design
+- Modular tool design
 
-Production-ready logging and error handling
+- Production-ready logging and error handling
 
-Interactive and scripted execution modes
+- Interactive and scripted execution modes
 
-🚀 Key Features
-🧠 Persistent Memory with Mem0
+## Key Features
+### Persistent Memory with Mem0
 
-Long-term memory across conversations
+- Long-term memory across conversations
 
-Semantic memory retrieval based on user queries
+- Semantic memory retrieval based on user queries
 
-Graceful degradation when memory is unavailable
+- Graceful degradation when memory is unavailable
 
-Memory-augmented system prompt injection
+- Memory-augmented system prompt injection
 
-🤖 Tool-Driven Agent Intelligence
+### 🤖 Tool-Driven Agent Intelligence
 
 The agent automatically selects and uses tools for:
 
-Safe arithmetic evaluation
+- Safe arithmetic evaluation
 
-Date calculations
+- Date calculations
 
-Text analysis (statistics + sentiment)
+- Text analysis (statistics + sentiment)
 
-Live weather data with practical recommendations
+- Live weather data with practical recommendations
 
-🔐 Secure Credential Management
+###🔐 Secure Credential Management
 
-API keys loaded from environment variables or .env
+- API keys loaded from environment variables or .env
 
-Required credentials validated at startup
+- Required credentials validated at startup
 
-Optional dependencies fail gracefully
+- Optional dependencies fail gracefully
 
-Secrets are never hard-coded
+- Secrets are never hard-coded
 
-📜 Enterprise-Grade Logging
+### 📜 Enterprise-Grade Logging
 
-Rotating log files with retention
+- Rotating log files with retention
 
-Console + file logging
+- Console + file logging
 
-Structured log formatting
+- Structured log formatting
 
-Debug-friendly traceability
+- Debug-friendly traceability
 
-💬 Multiple Execution Modes
+###💬 Multiple Execution Modes
 
-Interactive REPL-style chat
+- Interactive REPL-style chat
 
-Predefined example queries for testing and demos
+- Predefined example queries for testing and demos
 
-🛠️ Technology Stack
+###🛠️ Technology Stack
 
-Python 3.10+
+- **Python 3.10+**
 
-LangChain
+- **LangChain**
 
-Google Gemini (via langchain-google-genai)
+- **Google Gemini (via langchain-google-genai)**
 
-Mem0 (Persistent Memory Store)
+- **Mem0 (Persistent Memory Store)**
 
-OpenWeatherMap API
+- **OpenWeatherMap API**
 
-python-dotenv
+- **python-dotenv**
 
-AST-based safe expression evaluation
+- **AST-based safe expression evaluation**
 
-📦 Dependencies
-langchain==1.2.0
-langchain-google-genai==4.1.2
-mem0ai==1.0.1
-python-dotenv==1.2.1
+## 📦 Dependencies
+- **langchain==1.2.0**
+- **langchain-google-genai==4.1.2**
+- **mem0ai==1.0.1**
+- **python-dotenv==1.2.1**
 
-🔑 Environment Variables
+## 🔑 Environment Variables
 
 Create a .env file (never commit it) and define:
 
-GEMINI_API_KEY=your_google_gemini_api_key
-WEATHER_API_KEY=your_openweathermap_api_key
-MEM0_API_KEY=your_mem0_api_key
-🧩 Agent Capabilities
+- **GEMINI_API_KEY=your_google_gemini_api_key**
+- **WEATHER_API_KEY=your_openweathermap_api_key**
+- **MEM0_API_KEY=your_mem0_api_key**
+- 
+##🧩 Agent Capabilities
 Supported Tools
 1. Safe Math Calculator
 
@@ -126,48 +127,48 @@ Weather condition description
 
 Practical recommendations (e.g., clothing advice)
 
-🧠 Memory Design
-How Memory Works
+## 🧠 Memory Design
+- How Memory Works
 
-User sends a query
+1. User sends a query
 
-Relevant past memories are retrieved from Mem0
+2. Relevant past memories are retrieved from Mem0
 
-Memories are injected into the system prompt
+3. Memories are injected into the system prompt
 
-Agent generates a response
+4. Agent generates a response
 
-The interaction is persisted for future use
+5. The interaction is persisted for future use
 
-Memory Rules
+## Memory Rules
 
-Memory retrieval is skipped for very short inputs (e.g., greetings)
+- Memory retrieval is skipped for very short inputs (e.g., greetings)
 
-Memory is user-scoped via a USER_ID
+- Memory is user-scoped via a USER_ID
 
-The agent never claims lack of context if memory exists
+- The agent never claims lack of context if memory exists
 
-🧪 Example Queries Included
+## 🧪 Example Queries Included
 
-Arithmetic reasoning
+- Arithmetic reasoning
 
-Multi-tool orchestration (math + date)
+- Multi-tool orchestration (math + date)
 
-Weather lookup with recommendations
+- Weather lookup with recommendations
 
 These are useful for:
 
-Smoke testing
+- Smoke testing
 
-Demonstrations
+- Demonstrations
 
-Regression checks
+- Regression checks
 
-▶️ Running the Application
+## ▶️ Running the Application
 
 Start the application:
 
-python main.py
+- **python main.py**
 
 
 You will be prompted to choose:
@@ -175,61 +176,61 @@ You will be prompted to choose:
 1. Interactive Chat
 2. Run Example Queries
 
-Interactive Mode
+## Interactive Mode
 
-Continuous conversation
+- Continuous conversation
 
-Persistent memory across turns
+- Persistent memory across turns
 
-Exit with: exit, quit, or bye
+- Exit with: exit, quit, or bye
 
-📊 Logging
+## 📊 Logging
 
-Logs are written to agent_app.log
+- Logs are written to agent_app.log
 
-Automatic rotation (5MB per file, 5 backups)
+- Automatic rotation (5MB per file, 5 backups)
 
-Console output shows concise INFO-level logs
+- Console output shows concise INFO-level logs
 
-File logs include timestamps, line numbers, and context
+- File logs include timestamps, line numbers, and context
 
-🔒 Security Best Practices
+## 🔒 Security Best Practices
 
-No credentials in source code
+- No credentials in source code
 
-.env files excluded from version control
+- .env files excluded from version control
 
-API failures handled gracefully
+- API failures handled gracefully
 
-No use of eval() or unsafe execution paths
+- No use of eval() or unsafe execution paths
 
-🧱 Design Philosophy
+## 🧱 Design Philosophy
 
-Stateless execution, stateful experience
+- Stateless execution, stateful experience
 
-Tools are authoritative
+- Tools are authoritative
 
-Errors are visible, not silent
+- Errors are visible, not silent
 
-Human-readable outputs, machine-safe internals
+- Human-readable outputs, machine-safe internals
 
-👤 Default User Identity
+## 👤 Default User Identity
 
 A default user identifier is used for memory isolation:
 
-USER_ID = "Pushap"
+- **USER_ID = "Pushap"**
 
 
 This can be changed to support multi-user systems.
 
-📈 Production Readiness
+## 📈 Production Readiness
 
 This project is suitable as:
 
-A reference LangChain architecture
+- A reference LangChain architecture
 
-A base for enterprise assistants
+- A base for enterprise assistants
 
-A demonstration of memory-augmented LLM systems
+- A demonstration of memory-augmented LLM systems
 
-A teaching example for tool-driven agents
+- A teaching example for tool-driven agents
