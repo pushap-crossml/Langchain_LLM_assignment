@@ -1,85 +1,115 @@
-# LangChain Agent with Persistent Memory (Mem0) and Tooling
+# LANGCHAIN_ASSIGNMENT
 
-An **industry-grade LangChain application** demonstrating how to build a **tool-augmented AI agent** with **persistent long-term memory**, **external API integrations**, and **production-ready logging**.
-
----
-
-## 📌 Overview
-
-This project showcases best practices for building robust LLM-powered systems, including:
-
-- Stateless agent execution with stateful behavior via external memory  
-- Secure credential management  
-- Modular, tool-driven agent design  
-- Enterprise-grade logging and error handling  
-- Interactive and scripted execution modes  
+This repository demonstrates the implementation of **LangChain tool-based agents** using **Google Gemini models**.  
+The project showcases how **Large Language Models (LLMs)** can dynamically choose and invoke **single tools, multiple tools, and API-based tools** to solve user queries.
 
 ---
 
-## 🚀 Key Features
+## 📌 Project Objective
 
-### 🧠 Persistent Memory (Mem0)
-- Long-term memory across conversations  
-- Semantic memory retrieval based on user queries  
-- Graceful fallback when memory is unavailable  
-- Memory injected directly into the system prompt  
+The goal of this assignment is to:
 
-### 🤖 Tool-Driven Agent Intelligence
-The agent automatically selects and invokes tools for:
-
-- Safe arithmetic evaluation  
-- Date calculations  
-- Text analysis (statistics + sentiment)  
-- Live weather data with practical recommendations  
-
-### 🔐 Secure Credential Management
-- API keys loaded from environment variables or `.env`  
-- Required credentials validated at startup  
-- Optional dependencies fail gracefully  
-- No secrets hard-coded in source  
-
-### 📜 Enterprise-Grade Logging
-- Rotating log files with retention  
-- Console and file-based logging  
-- Structured, readable log format  
-- Debug-friendly traceability  
-
-### 💬 Multiple Execution Modes
-- Interactive REPL-style chat  
-- Predefined example queries for testing and demos  
+- Understand LangChain Agents  
+- Implement custom tools  
+- Explore single-tool vs multi-tool agents  
+- Integrate external APIs with LLMs  
+- Learn practical agent orchestration using Google Gemini  
 
 ---
 
-## 🛠️ Technology Stack
+## 🧠 Agents Implemented
 
-- **Python** 3.10+  
-- **LangChain**  
-- **Google Gemini** (`langchain-google-genai`)  
-- **Mem0** (Persistent Memory Store)  
-- **OpenWeatherMap API**  
-- **python-dotenv**  
-- **AST-based safe expression evaluation**  
+### 1️⃣ Single Tool Agent
+- Uses only one tool  
+- Suitable for focused tasks like mathematical calculations  
+
+### 2️⃣ Multi Tool Agent
+- Uses multiple tools  
+- LLM dynamically decides which tool(s) to invoke based on user intent  
+
+### 3️⃣ API Agent
+- Integrates external APIs  
+- Example: Weather information retrieval using OpenWeatherMap  
 
 ---
 
-## 📦 Dependencies
+## 🛠️ Tech Stack
 
-```txt
-langchain==1.2.0
-langchain-google-genai==4.1.2
-mem0ai==1.0.1
-python-dotenv==1.2.1
+- **Language:** Python 3.10+  
+- **Framework:** LangChain  
+- **LLM:** Google Gemini  
+  - `gemini-2.5-flash`  
+  - `gemini-2.5-flash-lite`  
+- **Environment:** Virtual Environment (`myenv`)  
+- **External API:** OpenWeatherMap  
 
-## Environment Variables
+---
 
-Create a `.env` file (**never commit it**) with the following variables:
+## ⚙️ Installation & Setup
 
-```env
-GEMINI_API_KEY=your_google_gemini_api_key
-WEATHER_API_KEY=your_openweathermap_api_key
-MEM0_API_KEY=your_mem0_api_key
-GEMINI_API_KEY – Required for LLM access
+### 1️⃣ Clone the Repository
+- **git clone https://github.com/pushap-crossml/Langchain_LLM_Assignment.git**
+- **cd Assignment_Langchain**
 
-WEATHER_API_KEY – Required for weather tool functionality
+2️⃣ Create & Activate Virtual Environment
+- **python -m venv myenv**
 
-MEM0_API_KEY – Optional; enables persistent memory
+
+### Activate the environment:
+
+Linux / macOS
+
+- **source myenv/bin/activate**
+
+
+Windows
+
+- **myenv\Scripts\activate**
+
+### 🔐 API Key Configuration
+
+Add your Gemini API Key in cred.py:
+
+- gemini_api_key = "YOUR_GEMINI_API_KEY"
+- open_weather_Map ="YOUR_WEATHER_MAP_KEY"
+
+### ▶️ How to Run
+
+Run the main application:
+
+- **python main.py**
+
+
+The agent will:
+
+- Understand the user query
+
+- Select the appropriate tool
+
+- Execute the tool
+
+- Return the final response
+
+### 📌 Example Use Cases
+
+- Solve mathematical calculations
+
+- Find future dates
+
+- Analyze text content
+
+- Fetch real-time weather information
+
+- Dynamically choose tools based on query intent
+
+### 🧪 Learning Outcomes
+
+- Practical understanding of LangChain Agents
+
+- Tool invocation and orchestration
+
+- Differences between single-tool and multi-tool agents
+
+- External API integration with LLMs
+
+- Clean and scalable project structuring for AI applications
