@@ -1,236 +1,217 @@
 # LangChain Agent with Persistent Memory (Mem0) and Tooling
+A production-style LangChain agent powered by Google Gemini, featuring multiple custom tools (math, dates, weather, text analysis) and Mem0 integration for long-term memory.
+This project demonstrates how to build context-aware, personalized AI agents using modern LLM orchestration techniques.
 
-An industry-grade LangChain application that demonstrates how to build a tool-augmented AI agent with persistent long-term memory, external API integrations, and robust logging.
+## 🚀 Features
+🔹 Core LLM
 
-This project showcases best practices for:
+- Google Gemini chat models:
 
-- Stateless agent invocation with stateful behavior via external memory
+   - gemini-2.5-flash
 
-- Secure credential handling
+   - gemini-2.5-flash-lite
 
-- Modular tool design
+🔹 LangChain Agent
 
-- Production-ready logging and error handling
+  - Tool-calling agent that:
 
-- Interactive and scripted execution modes
+  - Iteratively selects tools
 
-## Key Features
-### Persistent Memory with Mem0
+  - Executes them in a loop
 
-- Long-term memory across conversations
+  - Produces a final response based on tool outputs
 
-- Semantic memory retrieval based on user queries
+🔹 Built-in Tools
 
-- Graceful degradation when memory is unavailable
+ - Math Calculator
 
-- Memory-augmented system prompt injection
+    - Safe AST-based evaluation
 
-### 🤖 Tool-Driven Agent Intelligence
+    - Prevents arbitrary code execution
 
-The agent automatically selects and uses tools for:
+ - Date Utility
 
-- Safe arithmetic evaluation
+    - Computes future or relative dates
 
-- Date calculations
+- Weather Tool
 
-- Text analysis (statistics + sentiment)
+    - Fetches real-time weather data using OpenWeatherMap API
 
-- Live weather data with practical recommendations
+- Text Analysis
 
-###🔐 Secure Credential Management
+   - Word and character count
 
-- API keys loaded from environment variables or .env
+   - Basic sentiment estimation
 
-- Required credentials validated at startup
+🔹 Mem0 Long-Term Memory
 
-- Optional dependencies fail gracefully
+- Stores important interaction snippets
 
-- Secrets are never hard-coded
+- Retrieves relevant memories using user_id
 
-### 📜 Enterprise-Grade Logging
+- Injects retrieved memory into the system prompt
 
-- Rotating log files with retention
+- Enables personalized and context-aware conversations
+
+🔹 Logging & Observability
 
 - Console + file logging
 
-- Structured log formatting
+- Log rotation enabled
 
-- Debug-friendly traceability
+- Per-module loggers for easier debugging
 
-###💬 Multiple Execution Modes
+- Detailed traces for agent reasoning and tool usage
 
-- Interactive REPL-style chat
+🔹 Interactive CLI
 
-- Predefined example queries for testing and demos
+- Continuous chat loop with memory
 
-###🛠️ Technology Stack
+- Supports both:
 
-- **Python 3.10+**
+    - Interactive user input
 
-- **LangChain**
+    - Predefined example runs
 
-- **Google Gemini (via langchain-google-genai)**
+### 🎯 Project Objective
 
-- **Mem0 (Persistent Memory Store)**
+This assignment focuses on:
 
-- **OpenWeatherMap API**
+- Understanding LangChain agents
 
-- **python-dotenv**
+- Implementing custom tools
 
-- **AST-based safe expression evaluation**
+- Exploring single-tool and multi-tool agents
 
-## 📦 Dependencies
-- **langchain==1.2.0**
-- **langchain-google-genai==4.1.2**
-- **mem0ai==1.0.1**
-- **python-dotenv==1.2.1**
+- Integrating external APIs with LLMs
 
-## 🔑 Environment Variables
+- Using Google Gemini for real-world agent orchestration
 
-Create a .env file (never commit it) and define:
+- Adding persistent memory using Mem0
 
-- **GEMINI_API_KEY=your_google_gemini_api_key**
-- **WEATHER_API_KEY=your_openweathermap_api_key**
-- **MEM0_API_KEY=your_mem0_api_key**
-- 
-##🧩 Agent Capabilities
-Supported Tools
-1. Safe Math Calculator
+## 🧠 Agents Implemented
+1️⃣ Single Tool Agent
 
-Evaluates arithmetic expressions using restricted AST parsing
+Uses exactly one tool
 
-Prevents arbitrary code execution
+Best for focused tasks (e.g., calculations)
 
-Example
+2️⃣ Multi Tool Agent
 
-(234 * 12) + 98
+Uses multiple tools
 
-2. Date Utility
+LLM decides which tool(s) to call based on user intent
 
-Calculates dates relative to today
+3️⃣ API Agent
 
-Accepts positive or negative day offsets
+Integrates external APIs
 
-3. Text Analysis
+Example: real-time weather information retrieval
 
-Word count
+### 🧰 Tech Stack
 
-Character count
+- **Language: Python 3.10+**
 
-Naive sentiment detection (Positive / Negative / Neutral)
+- **Framework: LangChain+**
 
-4. Weather Lookup
+- **LLM: Google Gemini**
 
-Live temperature (°C)
+- **APIs:**
 
-Weather condition description
+  - OpenWeatherMap
 
-Practical recommendations (e.g., clothing advice)
+  - Mem0
 
-## 🧠 Memory Design
-- How Memory Works
+- Environment: Python Virtual Environment (venv)
 
-1. User sends a query
+## ⚙️ Installation & Setup
+1️⃣ Clone the Repository
+git clone https://github.com/pushap-crossml/Langchain_Assignment.git
+cd Langchain_Assignment
 
-2. Relevant past memories are retrieved from Mem0
+2️⃣ Create & Activate Virtual Environment
+python -m venv venv
 
-3. Memories are injected into the system prompt
 
-4. Agent generates a response
+Linux / macOS
 
-5. The interaction is persisted for future use
+source venv/bin/activate
 
-## Memory Rules
 
-- Memory retrieval is skipped for very short inputs (e.g., greetings)
+Windows
 
-- Memory is user-scoped via a USER_ID
+venv\Scripts\activate
 
-- The agent never claims lack of context if memory exists
+## 🔐 API Key Configuration
 
-## 🧪 Example Queries Included
+Add your API keys in cred.py:
 
-- Arithmetic reasoning
+- **gemini_api_key = "YOUR_GEMINI_API_KEY"**
+- **weather_api_key = "YOUR_WEATHER_API_KEY"**
+- **mem0_api_key = "YOUR_MEM0_API_KEY"**
 
-- Multi-tool orchestration (math + date)
 
-- Weather lookup with recommendations
+## ▶️ How to Run
 
-These are useful for:
+Run the main application:
 
-- Smoke testing
+python main.py
 
-- Demonstrations
 
-- Regression checks
+The agent will:
 
-## ▶️ Running the Application
+- Understand the user query
 
-Start the application:
+- Retrieve relevant memory (if available)
 
-- **python main.py**
+- Select appropriate tool(s)
 
+- Execute tools
 
-You will be prompted to choose:
+- Generate a final response
 
-1. Interactive Chat
-2. Run Example Queries
+### 💡 Example Use Cases
 
-## Interactive Mode
+- Solve mathematical expressions
 
-- Continuous conversation
+- Calculate future dates
 
-- Persistent memory across turns
+- Analyze text content
 
-- Exit with: exit, quit, or bye
+- Fetch real-time weather data
 
-## 📊 Logging
+- Dynamically choose tools based on query intent
 
-- Logs are written to agent_app.log
+- Personalize responses using stored memory
 
-- Automatic rotation (5MB per file, 5 backups)
+### 📚 Learning Outcomes
 
-- Console output shows concise INFO-level logs
+By completing this project, you will:
 
-- File logs include timestamps, line numbers, and context
+- Learn how to wire a Gemini-powered LangChain agent
 
-## 🔒 Security Best Practices
+- Design and register reusable custom tools
 
-- No credentials in source code
+- Implement single-tool and multi-tool agent workflows
 
-- .env files excluded from version control
+- Integrate external APIs into LLM-driven systems
 
-- API failures handled gracefully
+- Build a long-term memory layer using Mem0:
 
-- No use of eval() or unsafe execution paths
+   - Store structured interactions
 
-## 🧱 Design Philosophy
+   - Retrieve memories per user
 
-- Stateless execution, stateful experience
+   - Inject memory into prompts
 
-- Tools are authoritative
+- Create an interactive CLI agent
 
-- Errors are visible, not silent
+- Apply best practices for:
 
-- Human-readable outputs, machine-safe internals
+    - Logging
 
-## 👤 Default User Identity
+    - Error handling
 
-A default user identifier is used for memory isolation:
+    - Environment-based configuration
 
-- **USER_ID = "Pushap"**
-
-
-This can be changed to support multi-user systems.
-
-## 📈 Production Readiness
-
-This project is suitable as:
-
-- A reference LangChain architecture
-
-- A base for enterprise assistants
-
-- A demonstration of memory-augmented LLM systems
-
-- A teaching example for tool-driven agents
+    - Production-style project design
